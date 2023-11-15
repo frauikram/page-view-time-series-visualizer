@@ -7,11 +7,9 @@ register_matplotlib_converters()
 # Import data (Make sure to parse dates. Consider setting index column to 'date'.)
 df = pd.read_csv("fcc-forum-pageviews.csv", index_col="date" , parse_dates=True)
 
-
 # Clean data
 df = df[ df["value"].between( df["value"].quantile(.025), df["value"].quantile(.975) ) ]
 months= ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-
 
 def draw_line_plot():
     # Draw line plot
@@ -47,10 +45,13 @@ def draw_box_plot():
     df_box['month'] = [d.strftime('%b') for d in df_box.date]
 
     # Draw box plots (using Seaborn)
-
-
-
-
+    df_box['monthnumber'] = df.index.month
+    df_box = df_box.sort_values('monthnumber')
+    fig, ax = plt.subplots(1,2,figsize=(16,6))
+    sns.boxplot(y = "value", x = "year", data = df_box, ax = ax[0] ) 
+    ax[0].set(xlabel="Year", ylabel="Page Views", title="Year-wise Box Plot (Trend)")
+    sns.boxplot(y = "value", x = "month", data = df_box, ax = ax[1])
+    ax[1].set(xlabel="Month", ylabel="Page Views", title="Month-wise Box Plot (Seasonality)")
 
     # Save image and return fig (don't change this part)
     fig.savefig('box_plot.png')
