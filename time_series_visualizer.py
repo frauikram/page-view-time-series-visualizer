@@ -15,10 +15,10 @@ months= ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August
 
 def draw_line_plot():
     # Draw line plot
-
-
-
-
+    fig, ax = plt.subplots(figsize=(15,5))
+    ax = sns.lineplot(data = df, legend="brief")
+    ax.set(title='Daily freeCodeCamp Forum Page Views 5/2016-12/2019')
+    ax.set(xlabel = "Date",ylabel = "Page Views")
 
     # Save image and return fig (don't change this part)
     fig.savefig('line_plot.png')
