@@ -26,13 +26,14 @@ def draw_line_plot():
 
 def draw_bar_plot():
     # Copy and modify data for monthly bar plot
-    df_bar = None
-
+    df_bar = df.copy()
+    df_bar["year"] = df.index.year.values
+    df_bar["month"] = df.index.month_name()
+    
     # Draw bar plot
-
-
-
-
+    fig, ax = plt.subplots(figsize=(15,5))
+    ax = sns.barplot(x="year", hue="month", y="value", data=df_bar, hue_order = months, ci=None )
+    ax.set(xlabel = "Years",ylabel = "Average Page Views")
 
     # Save image and return fig (don't change this part)
     fig.savefig('bar_plot.png')
